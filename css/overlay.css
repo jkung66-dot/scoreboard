@@ -25,6 +25,7 @@
 :root {
   --scale: 1;
   --font: "Barlow Condensed", "Oswald", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --font-zh: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
   --panel: #0b0f17;
   --panel-2: #161c28;
   --accent: #f5b301;
@@ -157,6 +158,12 @@ body[data-pos="top"] .sb.is-hidden {
   overflow: hidden;
   text-overflow: ellipsis;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.abbr:lang(zh-Hant) {
+  font-family: var(--font-zh);
+  font-weight: 900;
+  letter-spacing: 0.06em;
 }
 
 .score {

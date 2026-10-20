@@ -127,7 +127,7 @@ function fillPresetOptions(select) {
     const group = document.createElement("optgroup");
     group.label = `${conf}岸`;
     NBA_TEAMS.filter((t) => t.conf === conf).forEach((t) => {
-      group.append(new Option(`${t.short}　${t.name}`, t.short));
+      group.append(new Option(`${t.name}　${t.short}`, t.short));
     });
     select.append(group);
   }
@@ -152,7 +152,7 @@ function renderSettings(game) {
     const box = $(`.team-settings[data-side="${side}"]`);
     const team = game.teams[side];
     $$(".js-field", box).forEach((input) => setIfIdle(input, team[input.dataset.field]));
-    setIfIdle($(".js-preset", box), matchingPreset(team));
+    setIfIdle($(`.js-preset[data-side="${side}"]`), matchingPreset(team));
   }
   setIfIdle($("#cfg-period-min"), Math.round(game.periodLengthMs / 60000));
   setIfIdle($("#cfg-ot-min"), Math.round(game.otLengthMs / 60000));
@@ -311,17 +311,19 @@ function bindEvents() {
     }
   });
 
-  for (const side of SIDES) {
-    const box = $(`.team-settings[data-side="${side}"]`);
-    const preset = $(".js-preset", box);
-    fillPresetOptions(preset);
-    preset.addEventListener("change", () => {
-      const team = findTeam(preset.value);
+  $$(".js-preset").forEach((select) => {
+    const side = select.dataset.side;
+    fillPresetOptions(select);
+    select.addEventListener("change", () => {
+      const team = findTeam(select.value);
       if (!team) return;
       const { name, short, color, logo } = team;
-      run(() => store.updateTeam(side, { name, short, color, logo }), `已揀 ${name}`);
+      run(() => store.updateTeam(side, { name, short, color, logo }), `${side === "away" ? "客隊" : "主隊"}：${team.full}`);
     });
+  });
 
+  for (const side of SIDES) {
+    const box = $(`.team-settings[data-side="${side}"]`);
     $$(".js-field", box).forEach((input) => {
       input.addEventListener("change", () => {
         const field = input.dataset.field;

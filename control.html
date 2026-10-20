@@ -83,6 +83,16 @@
         <button id="btn-reset-period" class="btn ghost block js-needs-write" type="button">重設本節時間</button>
       </section>
 
+      <!-- 揀球隊 -->
+      <section class="card picker-card">
+        <h2>揀球隊</h2>
+        <div class="picker-grid">
+          <label>客隊（左）<select class="js-preset js-needs-write" data-side="away"></select></label>
+          <label>主隊（右）<select class="js-preset js-needs-write" data-side="home"></select></label>
+        </div>
+        <p class="hint">揀完會自動換隊名、縮寫、顏色同隊徽，比分唔會變。</p>
+      </section>
+
       <!-- 比分 -->
       <section class="scores">
         <div class="card team-card" data-side="away">
@@ -141,7 +151,6 @@
 
         <div class="team-settings" data-side="away">
           <h3>客隊（左邊）</h3>
-          <label>快速揀 NBA 球隊 <select class="js-preset js-needs-write"></select></label>
           <label>隊名 <input class="js-field js-needs-write" data-field="name" type="text" maxlength="40"></label>
           <label>縮寫（Overlay 顯示） <input class="js-field js-needs-write" data-field="short" type="text" maxlength="6"></label>
           <label class="color-label">主色 <input class="js-field js-needs-write" data-field="color" type="color"></label>
@@ -155,7 +164,6 @@
 
         <div class="team-settings" data-side="home">
           <h3>主隊（右邊）</h3>
-          <label>快速揀 NBA 球隊 <select class="js-preset js-needs-write"></select></label>
           <label>隊名 <input class="js-field js-needs-write" data-field="name" type="text" maxlength="40"></label>
           <label>縮寫（Overlay 顯示） <input class="js-field js-needs-write" data-field="short" type="text" maxlength="6"></label>
           <label class="color-label">主色 <input class="js-field js-needs-write" data-field="color" type="color"></label>

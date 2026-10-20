@@ -3,6 +3,7 @@
 //   ?game=main     比賽 ID（同控制面板一致）
 //   &pos=bottom    bottom（預設）或 top
 //   &scale=1       整體縮放，例如 0.8、1.2
+//   &label=short   球隊顯示英文縮寫（預設顯示中文隊名）
 //   &demo=1        示範模式，唔使 Firebase，用嚟試位置同外觀
 
 import {
@@ -20,6 +21,7 @@ import {
 const params = new URLSearchParams(location.search);
 const gameId = cleanGameId(params.get("game"));
 const isDemo = params.get("demo") === "1";
+const labelMode = params.get("label") === "short" ? "short" : "name";
 
 applyLayout();
 
@@ -78,11 +80,13 @@ function createView(root) {
       t.el.dataset.light = String(textColor !== "#ffffff");
       t.last.color = team.color;
     }
-    const label = team.short || team.name;
+    const label = (labelMode === "short" ? team.short || team.name : team.name || team.short).trim();
     if (t.last.label !== label) {
       t.abbr.textContent = label;
+      t.abbr.lang = /[\u3400-\u9fff]/.test(label) ? "zh-Hant" : "en";
       t.initialsEl.textContent = initials(team);
       t.last.label = label;
+      fitText(t.abbr);
     }
     if (t.last.logo !== team.logo) {
       if (team.logo) {
@@ -137,6 +141,24 @@ function createView(root) {
   return { render, renderClock };
 }
 
+// 隊名太長就逐步縮細字，確保唔會被截斷
+const BASE_LABEL_PX = 38;
+const MIN_LABEL_PX = 20;
+
+function fitText(el) {
+  el.style.fontSize = "";
+  let size = BASE_LABEL_PX;
+  while (el.scrollWidth > el.clientWidth && size > MIN_LABEL_PX) {
+    size -= 2;
+    el.style.fontSize = `${size}px`;
+  }
+}
+
+// 字型載入完成後再量一次（第一次量可能用緊後備字型）
+document.fonts?.ready.then(() => {
+  boardEl.querySelectorAll(".abbr").forEach(fitText);
+});
+
 function tick() {
   if (game) view.renderClock(game, serverNow());
   requestAnimationFrame(tick);
@@ -150,8 +172,8 @@ function setGame(next) {
 
 function startDemo() {
   const demo = createDefaultGame();
-  demo.teams.away = { name: "Lakers", short: "LAL", color: "#552583", logo: "", score: 98 };
-  demo.teams.home = { name: "Celtics", short: "BOS", color: "#007A33", logo: "", score: 101 };
+  demo.teams.away = { name: "湖人", short: "LAL", color: "#552583", logo: "logos/LAL.png", score: 98 };
+  demo.teams.home = { name: "塞爾特人", short: "BOS", color: "#007A33", logo: "logos/BOS.png", score: 101 };
   demo.period = 4;
   demo.clock = { running: true, endsAt: Date.now() + 75000, remainingMs: 75000 };
   setGame(sanitizeGame(demo));

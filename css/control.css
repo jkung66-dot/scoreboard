@@ -218,6 +218,15 @@ input:focus { outline: 2px solid var(--blue); outline-offset: 1px; }
 .inline-form input { margin-top: 0; }
 .inline-form .btn { flex: 0 0 auto; }
 
+/* ---------- 揀球隊 ---------- */
+.picker-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.picker-grid label { margin-bottom: 0; }
+.picker-card .hint { margin-top: 10px; }
+
 /* ---------- 比分 ---------- */
 .scores {
   display: grid;
