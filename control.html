@@ -138,6 +138,7 @@
           <button class="btn js-needs-write" data-status="final" type="button">完場</button>
         </div>
         <button id="btn-visible" class="btn block js-needs-write" type="button">隱藏記分板</button>
+        <button id="btn-reset-game" class="btn danger block js-needs-write" type="button">↺ 重新開始比賽（比分清零、回到第 1 節、保留球隊）</button>
         <div class="link-row">
           <input id="overlay-url" type="text" readonly aria-label="Overlay 網址">
           <button id="btn-copy-url" class="btn" type="button">複製</button>
@@ -185,8 +186,8 @@
         </div>
         <p class="hint">改完時間設定後，撳「重設本節時間」先會套用落目前呢節。</p>
 
-        <h3>危險操作</h3>
-        <button id="btn-reset-game" class="btn danger block js-needs-write" type="button">重新開始比賽（比分清零、回到第 1 節）</button>
+        <h3>全部還原</h3>
+        <button id="btn-reset-all" class="btn danger block js-needs-write" type="button">全部重設（比分、時間、球隊、設定全部還原預設）</button>
       </details>
     </main>
   </section>

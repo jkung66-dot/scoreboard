@@ -209,6 +209,21 @@ export function createStore(gameId) {
     });
   }
 
+  // 全部還原：球隊、時間設定、比分、節數全部變返預設值
+  function resetAll() {
+    const d = createDefaultGame();
+    return touch({
+      period: d.period,
+      regulationPeriods: d.regulationPeriods,
+      periodLengthMs: d.periodLengthMs,
+      otLengthMs: d.otLengthMs,
+      status: d.status,
+      visible: d.visible,
+      clock: d.clock,
+      teams: d.teams
+    });
+  }
+
   // 主客隊對調（隊名、顏色、隊徽、比分一齊換）
   function swapTeams() {
     const game = currentGame();
@@ -232,6 +247,7 @@ export function createStore(gameId) {
     updateTeam,
     updateSettings,
     resetGame,
+    resetAll,
     swapTeams,
     dispose
   };

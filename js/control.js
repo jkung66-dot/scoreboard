@@ -400,6 +400,11 @@ function bindEvents() {
     run(() => store.resetGame(), "比賽已重新開始");
   });
 
+  $("#btn-reset-all").addEventListener("click", () => {
+    if (!confirm("確定全部重設？球隊、隊徽、比分、時間設定全部會變返預設。")) return;
+    run(() => store.resetAll(), "已全部重設");
+  });
+
   $("#btn-logout").addEventListener("click", async () => {
     if (!confirm("確定登出？")) return;
     const { logout } = await import("./auth.js");
