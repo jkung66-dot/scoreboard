@@ -3,6 +3,7 @@
 //   ?game=main     比賽 ID（同控制面板一致）
 //   &pos=bottom    bottom（預設）或 top
 //   &scale=1       整體縮放，例如 0.8、1.2
+//   &layout=classic 時間放最右（預設時間喺兩隊中間）
 //   &label=short   球隊只顯示英文縮寫（預設只顯示中文隊名）
 //   &label=both    上面中文隊名、下面英文縮寫（雙行）
 //   &demo=1        示範模式，唔使 Firebase，用嚟試位置同外觀
@@ -37,6 +38,7 @@ function applyLayout() {
   const pos = params.get("pos") === "top" ? "top" : "bottom";
   const scale = Number(params.get("scale"));
   document.body.dataset.pos = pos;
+  document.body.dataset.layout = params.get("layout") === "classic" ? "classic" : "center";
   if (Number.isFinite(scale) && scale >= 0.3 && scale <= 3) {
     document.documentElement.style.setProperty("--scale", String(scale));
   }

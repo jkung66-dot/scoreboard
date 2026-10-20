@@ -284,6 +284,34 @@ body[data-pos="top"] .sb.is-hidden {
   to { visibility: hidden; }
 }
 
+/* ---------- 時間置中版面（預設）：客隊 ｜ 節數＋時間 ｜ 主隊 ---------- */
+body[data-layout="center"] .team[data-side="away"] { order: 1; }
+body[data-layout="center"] .info { order: 2; }
+body[data-layout="center"] .team[data-side="home"] {
+  order: 3;
+  flex-direction: row-reverse;
+  border-left: none;
+}
+
+body[data-layout="center"] .team[data-side="home"] .logo {
+  margin-left: 0;
+  margin-right: 10px;
+}
+
+body[data-layout="center"] .team[data-side="home"] .abbr {
+  padding: 0 12px 0 10px;
+  text-align: right;
+}
+
+body[data-layout="center"] .team[data-side="home"] .abbr.two-line {
+  align-items: flex-end;
+}
+
+body[data-layout="center"] .info {
+  padding: 0 18px;
+  justify-content: center;
+}
+
 /* ---------- 設定錯誤提示（只會喺有問題時出現） ---------- */
 .notice {
   position: fixed;
