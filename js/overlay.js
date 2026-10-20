@@ -3,7 +3,8 @@
 //   ?game=main     比賽 ID（同控制面板一致）
 //   &pos=bottom    bottom（預設）或 top
 //   &scale=1       整體縮放，例如 0.8、1.2
-//   &label=short   球隊顯示英文縮寫（預設顯示中文隊名）
+//   &label=short   球隊只顯示英文縮寫（預設只顯示中文隊名）
+//   &label=both    上面中文隊名、下面英文縮寫（雙行）
 //   &demo=1        示範模式，唔使 Firebase，用嚟試位置同外觀
 
 import {
@@ -21,7 +22,7 @@ import {
 const params = new URLSearchParams(location.search);
 const gameId = cleanGameId(params.get("game"));
 const isDemo = params.get("demo") === "1";
-const labelMode = params.get("label") === "short" ? "short" : "name";
+const labelMode = ["short", "both"].includes(params.get("label")) ? params.get("label") : "name";
 
 applyLayout();
 
@@ -61,6 +62,8 @@ function createView(root) {
       img,
       initialsEl,
       abbr: el.querySelector(".abbr"),
+      labelMain: el.querySelector(".abbr .main"),
+      labelSub: el.querySelector(".abbr .sub"),
       score: el.querySelector(".score"),
       last: { score: null, logo: null, color: null, label: null }
     };
@@ -80,12 +83,19 @@ function createView(root) {
       t.el.dataset.light = String(textColor !== "#ffffff");
       t.last.color = team.color;
     }
-    const label = (labelMode === "short" ? team.short || team.name : team.name || team.short).trim();
-    if (t.last.label !== label) {
-      t.abbr.textContent = label;
-      t.abbr.lang = /[\u3400-\u9fff]/.test(label) ? "zh-Hant" : "en";
+    const name = (team.name || team.short).trim();
+    const short = (team.short || team.name).trim();
+    const main = labelMode === "short" ? short : name;
+    const sub = labelMode === "both" && short !== name ? short : "";
+    const labelKey = `${main}|${sub}`;
+    if (t.last.label !== labelKey) {
+      t.labelMain.textContent = main;
+      t.labelMain.lang = /[\u3400-\u9fff]/.test(main) ? "zh-Hant" : "en";
+      t.labelSub.textContent = sub;
+      t.labelSub.hidden = !sub;
+      t.abbr.classList.toggle("two-line", Boolean(sub));
       t.initialsEl.textContent = initials(team);
-      t.last.label = label;
+      t.last.label = labelKey;
       fitText(t.abbr);
     }
     if (t.last.logo !== team.logo) {
@@ -145,12 +155,16 @@ function createView(root) {
 const BASE_LABEL_PX = 38;
 const MIN_LABEL_PX = 20;
 
-function fitText(el) {
-  el.style.fontSize = "";
-  let size = BASE_LABEL_PX;
-  while (el.scrollWidth > el.clientWidth && size > MIN_LABEL_PX) {
+const TWO_LINE_LABEL_PX = 34;
+
+function fitText(abbrEl) {
+  const mainEl = abbrEl.querySelector(".main");
+  mainEl.style.fontSize = "";
+  let size = abbrEl.classList.contains("two-line") ? TWO_LINE_LABEL_PX : BASE_LABEL_PX;
+  mainEl.style.fontSize = `${size}px`;
+  while (mainEl.scrollWidth > mainEl.clientWidth && size > MIN_LABEL_PX) {
     size -= 2;
-    el.style.fontSize = `${size}px`;
+    mainEl.style.fontSize = `${size}px`;
   }
 }
 

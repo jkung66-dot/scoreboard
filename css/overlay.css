@@ -160,7 +160,30 @@ body[data-pos="top"] .sb.is-hidden {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
-.abbr:lang(zh-Hant) {
+.abbr .main,
+.abbr .sub {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.abbr.two-line {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.05;
+}
+
+.abbr .sub {
+  margin-top: 3px;
+  font-family: var(--font);
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  opacity: 0.85;
+}
+
+.abbr .main:lang(zh-Hant) {
   font-family: var(--font-zh);
   font-weight: 900;
   letter-spacing: 0.06em;
