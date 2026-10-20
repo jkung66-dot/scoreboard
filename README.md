@@ -51,7 +51,7 @@ nba-scoreboard/
 │   ├── teams.js             NBA 30 隊預設（隊名、縮寫、底色、隊徽路徑）
 │   └── vendor/firebase/     Firebase JS SDK 10.12.2（本地副本）
 ├── logos/                   NBA 30 隊隊徽（256×256 透明 PNG，檔名＝縮寫）
-├── fonts/                   Overlay 字型 Barlow Condensed（本地副本）
+├── fonts/                   Overlay 字型：Barlow Condensed（英文數字）＋ Noto Sans TC Black（中文），本地副本
 ├── database.rules.json      ★ 資料庫安全規則（要改 email）
 └── firebase.json            用 Firebase Hosting 先需要，GitHub Pages 唔使理
 ```
@@ -135,7 +135,8 @@ nba-scoreboard/
 
 - **位置／大細**：Overlay 網址加 `&pos=top` 放頂，`&scale=0.85` 縮細。微調距離改 `css/overlay.css` 嘅 `bottom: 48px` / `top: 40px`。
 - **顏色**：`css/overlay.css` 最頂 `--accent`（節數底色、最後一分鐘時鐘色）、`--panel`（時鐘區底色）、`--danger`（0.0 顏色）。
-- **字型**：字型檔放喺 `fonts/`（Barlow Condensed，已打包，唔靠網絡），改 `css/overlay.css` 頂部 `@font-face` 同 `--font`。
+- **中文字型／字號**：中文隊名用黑體超粗（Noto Sans TC Black，已打包喺 `fonts/noto-sans-tc-900/`），所有隊同一字號，改 `css/overlay.css` 嘅 `--zh-size`（預設 34px）。
+- **英文字型**：字型檔放喺 `fonts/`（Barlow Condensed，已打包，唔靠網絡），改 `css/overlay.css` 頂部 `@font-face` 同 `--font`。
 - **節數文字**：改 `js/model.js` 嘅 `periodLabel()`（Overlay，例如改做「第1節」）同 `periodLabelZh()`（控制台）。
 - **FINAL / HALFTIME 文字**：`js/overlay.js` 入面 `render()`。
 - **其他賽制**：控制台設定入面改每節分鐘、加時分鐘、正規節數（例如 FIBA 10 分鐘、街場 2 節）。

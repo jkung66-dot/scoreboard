@@ -160,8 +160,12 @@ const TWO_LINE_LABEL_PX = 34;
 function fitText(abbrEl) {
   const mainEl = abbrEl.querySelector(".main");
   mainEl.style.fontSize = "";
-  let size = abbrEl.classList.contains("two-line") ? TWO_LINE_LABEL_PX : BASE_LABEL_PX;
-  mainEl.style.fontSize = `${size}px`;
+  // 中文隊名一律用 CSS 嘅 --zh-size，所有隊字號一致；只有自訂超長隊名先會縮
+  const isChinese = mainEl.lang === "zh-Hant";
+  let size = isChinese
+    ? parseFloat(getComputedStyle(mainEl).fontSize)
+    : abbrEl.classList.contains("two-line") ? TWO_LINE_LABEL_PX : BASE_LABEL_PX;
+  if (!isChinese) mainEl.style.fontSize = `${size}px`;
   while (mainEl.scrollWidth > mainEl.clientWidth && size > MIN_LABEL_PX) {
     size -= 2;
     mainEl.style.fontSize = `${size}px`;

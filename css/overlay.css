@@ -25,7 +25,8 @@
 :root {
   --scale: 1;
   --font: "Barlow Condensed", "Oswald", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  --font-zh: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
+  --font-zh: "Scoreboard TC", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Heiti TC", sans-serif;
+  --zh-size: 34px;
   --panel: #0b0f17;
   --panel-2: #161c28;
   --accent: #f5b301;
@@ -91,7 +92,7 @@ body[data-pos="top"] .sb.is-hidden {
   position: relative;
   display: flex;
   align-items: center;
-  width: 310px;
+  width: 356px;
   background: var(--team);
   color: var(--team-text);
 }
@@ -185,8 +186,9 @@ body[data-pos="top"] .sb.is-hidden {
 
 .abbr .main:lang(zh-Hant) {
   font-family: var(--font-zh);
+  font-size: var(--zh-size);
   font-weight: 900;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.02em;
 }
 
 .score {
