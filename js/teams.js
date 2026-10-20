@@ -15,7 +15,7 @@ export const NBA_TEAMS = [
   { short: "IND", name: "溜馬", full: "印第安納溜馬", conf: "東", color: "#002D62" },
   { short: "MIA", name: "熱火", full: "邁阿密熱火", conf: "東", color: "#000000" },
   { short: "MIL", name: "公鹿", full: "密爾瓦基公鹿", conf: "東", color: "#00471B" },
-  { short: "NYK", name: "紐約人", full: "紐約紐約人", conf: "東", color: "#006BB6" },
+  { short: "NYK", name: "紐約人", full: "紐約人", conf: "東", color: "#006BB6" },
   { short: "ORL", name: "魔術", full: "奧蘭多魔術", conf: "東", color: "#0077C0" },
   { short: "PHI", name: "七六人", full: "費城七六人", conf: "東", color: "#006BB6" },
   { short: "TOR", name: "速龍", full: "多倫多速龍", conf: "東", color: "#CE1141" },
