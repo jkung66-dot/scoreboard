@@ -284,7 +284,7 @@ body[data-pos="top"] .sb.is-hidden {
   to { visibility: hidden; }
 }
 
-/* ---------- 時間置中版面（預設）：客隊 ｜ 節數＋時間 ｜ 主隊 ---------- */
+/* ---------- 時間置中版面（&layout=center）：客隊 ｜ 節數＋時間 ｜ 主隊 ---------- */
 body[data-layout="center"] .team[data-side="away"] { order: 1; }
 body[data-layout="center"] .info { order: 2; }
 body[data-layout="center"] .team[data-side="home"] {
