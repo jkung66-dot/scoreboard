@@ -5,7 +5,7 @@
 
 export const NBA_TEAMS = [
   // 東岸
-  { short: "ATL", name: "鷹", full: "亞特蘭大鷹", conf: "東", color: "#C8102E" },
+  { short: "ATL", name: "鷹隊", full: "亞特蘭大鷹隊", conf: "東", color: "#C8102E" },
   { short: "BOS", name: "塞爾特人", full: "波士頓塞爾特人", conf: "東", color: "#007A33" },
   { short: "BKN", name: "籃網", full: "布魯克林籃網", conf: "東", color: "#000000" },
   { short: "CHA", name: "黃蜂", full: "夏洛特黃蜂", conf: "東", color: "#1D1160" },
@@ -17,7 +17,7 @@ export const NBA_TEAMS = [
   { short: "MIL", name: "公鹿", full: "密爾瓦基公鹿", conf: "東", color: "#00471B" },
   { short: "NYK", name: "尼克斯", full: "紐約尼克斯", conf: "東", color: "#006BB6" },
   { short: "ORL", name: "魔術", full: "奧蘭多魔術", conf: "東", color: "#0077C0" },
-  { short: "PHI", name: "76人", full: "費城76人", conf: "東", color: "#006BB6" },
+  { short: "PHI", name: "七六人", full: "費城七六人", conf: "東", color: "#006BB6" },
   { short: "TOR", name: "速龍", full: "多倫多速龍", conf: "東", color: "#CE1141" },
   { short: "WAS", name: "巫師", full: "華盛頓巫師", conf: "東", color: "#002B5C" },
   // 西岸
