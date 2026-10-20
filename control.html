@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b0f17">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>記分板控制台</title>
+  <link rel="stylesheet" href="css/control.css">
+</head>
+<body>
+  <!-- 設定未完成 -->
+  <section id="view-config" class="view center" hidden>
+    <div class="card narrow">
+      <h1>未設定 Firebase</h1>
+      <p>請打開 <code>js/firebase-config.js</code>，貼上 Firebase Console 提供嘅設定，再重新上載網站。詳細步驟見 README。</p>
+    </div>
+  </section>
+
+  <!-- 登入 -->
+  <section id="view-login" class="view center" hidden>
+    <form id="login-form" class="card narrow" autocomplete="on">
+      <h1>記分板控制台</h1>
+      <p class="muted">比賽：<b class="js-game-id"></b></p>
+      <label>Email
+        <input id="login-email" type="email" required autocomplete="username" inputmode="email">
+      </label>
+      <label>密碼
+        <input id="login-password" type="password" required autocomplete="current-password">
+      </label>
+      <p id="login-error" class="error" hidden></p>
+      <button id="login-submit" class="btn primary block" type="submit">登入</button>
+    </form>
+  </section>
+
+  <!-- 主控制台 -->
+  <section id="view-main" class="view" hidden>
+    <header class="topbar">
+      <div class="topbar-left">
+        <span id="conn" class="conn" data-state="connecting" title="連線狀態"></span>
+        <span id="conn-text" class="conn-text">連線中…</span>
+      </div>
+      <div class="topbar-right">
+        <span class="muted small">比賽 <b class="js-game-id"></b></span>
+        <button id="btn-wakelock" class="btn ghost small" type="button" title="防止手機熄屏">螢幕常亮：關</button>
+        <button id="btn-logout" class="btn ghost small" type="button">登出</button>
+      </div>
+    </header>
+
+    <div id="banner" class="banner" hidden></div>
+
+    <main class="layout">
+      <!-- 時間 -->
+      <section class="card clock-card">
+        <div class="period-row">
+          <button class="btn icon js-needs-write" id="btn-period-prev" type="button" aria-label="上一節">◀</button>
+          <div class="period-display">
+            <div id="period-label" class="period-label">第 1 節</div>
+            <div id="status-label" class="status-label"></div>
+          </div>
+          <button class="btn icon js-needs-write" id="btn-period-next" type="button" aria-label="下一節">▶</button>
+        </div>
+
+        <div id="clock-display" class="clock-display" data-state="normal">12:00</div>
+
+        <button id="btn-toggle" class="btn toggle js-needs-write" type="button">開始</button>
+        <p class="hint">電腦可以用空白鍵開始／暫停</p>
+
+        <div class="adjust-row">
+          <button class="btn js-needs-write" data-adjust="-10000" type="button">−10s</button>
+          <button class="btn js-needs-write" data-adjust="-1000" type="button">−1s</button>
+          <button class="btn js-needs-write" data-adjust="-100" type="button">−0.1</button>
+          <button class="btn js-needs-write" data-adjust="100" type="button">+0.1</button>
+          <button class="btn js-needs-write" data-adjust="1000" type="button">+1s</button>
+          <button class="btn js-needs-write" data-adjust="10000" type="button">+10s</button>
+        </div>
+
+        <form id="set-time-form" class="inline-form">
+          <input id="set-time-input" type="text" inputmode="decimal" placeholder="例如 5:30 或 24.5" aria-label="設定時間">
+          <button class="btn js-needs-write" type="submit">設定時間</button>
+        </form>
+        <button id="btn-reset-period" class="btn ghost block js-needs-write" type="button">重設本節時間</button>
+      </section>
+
+      <!-- 比分 -->
+      <section class="scores">
+        <div class="card team-card" data-side="away">
+          <div class="team-head">
+            <div class="team-logo"><img alt="" hidden><span class="initials"></span></div>
+            <div>
+              <div class="team-tag">客隊</div>
+              <div class="team-name"></div>
+            </div>
+          </div>
+          <div class="team-score">0</div>
+          <div class="score-buttons">
+            <button class="btn score-btn js-needs-write" data-score="1" type="button">+1</button>
+            <button class="btn score-btn js-needs-write" data-score="2" type="button">+2</button>
+            <button class="btn score-btn js-needs-write" data-score="3" type="button">+3</button>
+            <button class="btn score-btn minus js-needs-write" data-score="-1" type="button">−1</button>
+          </div>
+        </div>
+        <div class="card team-card" data-side="home">
+          <div class="team-head">
+            <div class="team-logo"><img alt="" hidden><span class="initials"></span></div>
+            <div>
+              <div class="team-tag">主隊</div>
+              <div class="team-name"></div>
+            </div>
+          </div>
+          <div class="team-score">0</div>
+          <div class="score-buttons">
+            <button class="btn score-btn js-needs-write" data-score="1" type="button">+1</button>
+            <button class="btn score-btn js-needs-write" data-score="2" type="button">+2</button>
+            <button class="btn score-btn js-needs-write" data-score="3" type="button">+3</button>
+            <button class="btn score-btn minus js-needs-write" data-score="-1" type="button">−1</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 比賽狀態 -->
+      <section class="card">
+        <h2>畫面狀態</h2>
+        <div class="segmented" role="group" aria-label="比賽狀態">
+          <button class="btn js-needs-write" data-status="live" type="button">比賽中</button>
+          <button class="btn js-needs-write" data-status="halftime" type="button">半場</button>
+          <button class="btn js-needs-write" data-status="final" type="button">完場</button>
+        </div>
+        <button id="btn-visible" class="btn block js-needs-write" type="button">隱藏記分板</button>
+        <div class="link-row">
+          <input id="overlay-url" type="text" readonly aria-label="Overlay 網址">
+          <button id="btn-copy-url" class="btn" type="button">複製</button>
+        </div>
+        <p class="hint">將上面網址貼落 OBS「瀏覽器來源」，闊 1920、高 1080。</p>
+      </section>
+
+      <!-- 設定 -->
+      <details class="card settings">
+        <summary>球隊同比賽設定</summary>
+
+        <div class="team-settings" data-side="away">
+          <h3>客隊（左邊）</h3>
+          <label>快速揀 NBA 球隊 <select class="js-preset js-needs-write"></select></label>
+          <label>隊名 <input class="js-field js-needs-write" data-field="name" type="text" maxlength="40"></label>
+          <label>縮寫（Overlay 顯示） <input class="js-field js-needs-write" data-field="short" type="text" maxlength="6"></label>
+          <label class="color-label">主色 <input class="js-field js-needs-write" data-field="color" type="color"></label>
+          <div class="logo-edit">
+            <span>隊徽</span>
+            <label class="btn small file-btn">上載圖片<input class="js-logo-file js-needs-write" type="file" accept="image/*" hidden></label>
+            <button class="btn ghost small js-logo-url js-needs-write" type="button">用網址</button>
+            <button class="btn ghost small js-logo-clear js-needs-write" type="button">移除</button>
+          </div>
+        </div>
+
+        <div class="team-settings" data-side="home">
+          <h3>主隊（右邊）</h3>
+          <label>快速揀 NBA 球隊 <select class="js-preset js-needs-write"></select></label>
+          <label>隊名 <input class="js-field js-needs-write" data-field="name" type="text" maxlength="40"></label>
+          <label>縮寫（Overlay 顯示） <input class="js-field js-needs-write" data-field="short" type="text" maxlength="6"></label>
+          <label class="color-label">主色 <input class="js-field js-needs-write" data-field="color" type="color"></label>
+          <div class="logo-edit">
+            <span>隊徽</span>
+            <label class="btn small file-btn">上載圖片<input class="js-logo-file js-needs-write" type="file" accept="image/*" hidden></label>
+            <button class="btn ghost small js-logo-url js-needs-write" type="button">用網址</button>
+            <button class="btn ghost small js-logo-clear js-needs-write" type="button">移除</button>
+          </div>
+        </div>
+
+        <button id="btn-swap" class="btn block js-needs-write" type="button">⇄ 主客隊對調</button>
+
+        <h3>時間設定</h3>
+        <div class="grid-3">
+          <label>每節（分鐘） <input id="cfg-period-min" class="js-needs-write" type="number" min="1" max="60" step="1"></label>
+          <label>加時（分鐘） <input id="cfg-ot-min" class="js-needs-write" type="number" min="1" max="60" step="1"></label>
+          <label>正規節數 <input id="cfg-periods" class="js-needs-write" type="number" min="1" max="8" step="1"></label>
+        </div>
+        <p class="hint">改完時間設定後，撳「重設本節時間」先會套用落目前呢節。</p>
+
+        <h3>危險操作</h3>
+        <button id="btn-reset-game" class="btn danger block js-needs-write" type="button">重新開始比賽（比分清零、回到第 1 節）</button>
+      </details>
+    </main>
+  </section>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <script type="module" src="js/control.js"></script>
+</body>
+</html>

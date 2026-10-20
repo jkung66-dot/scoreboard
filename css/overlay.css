@@ -1,0 +1,277 @@
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 600;
+  font-display: block;
+  src: url("../fonts/barlow-condensed-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 700;
+  font-display: block;
+  src: url("../fonts/barlow-condensed-latin-700-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Barlow Condensed";
+  font-style: normal;
+  font-weight: 800;
+  font-display: block;
+  src: url("../fonts/barlow-condensed-latin-800-normal.woff2") format("woff2");
+}
+
+:root {
+  --scale: 1;
+  --font: "Barlow Condensed", "Oswald", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --panel: #0b0f17;
+  --panel-2: #161c28;
+  --accent: #f5b301;
+  --danger: #ff3b30;
+  --height: 76px;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+.stage {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%) scale(var(--scale));
+}
+
+body[data-pos="bottom"] .stage {
+  bottom: 48px;
+  transform-origin: bottom center;
+}
+
+body[data-pos="top"] .stage {
+  top: 40px;
+  transform-origin: top center;
+}
+
+.sb {
+  display: flex;
+  align-items: stretch;
+  height: var(--height);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--panel);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.08);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.sb.is-hidden {
+  opacity: 0;
+  transform: translateY(24px);
+}
+
+body[data-pos="top"] .sb.is-hidden {
+  transform: translateY(-24px);
+}
+
+/* ---------- 球隊 ---------- */
+.team {
+  --team: #333;
+  --team-text: #fff;
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 310px;
+  background: var(--team);
+  color: var(--team-text);
+}
+
+.team::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0) 45%, rgba(0, 0, 0, 0.28) 100%);
+  pointer-events: none;
+}
+
+/* 淺色球隊底（例如馬刺、爵士）：比分格改深色，保持白字清晰 */
+.team[data-light="true"] .score {
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.team + .team {
+  border-left: 2px solid rgba(0, 0, 0, 0.35);
+}
+
+.logo {
+  position: relative;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-left: 10px;
+}
+
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.45));
+}
+
+.logo .initials {
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 3px solid currentColor;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.logo [hidden] {
+  display: none;
+}
+
+.abbr {
+  position: relative;
+  flex: 1 1 auto;
+  padding: 0 10px 0 12px;
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.score {
+  position: relative;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  align-self: stretch;
+  min-width: 100px;
+  padding: 0 8px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #fff;
+  font-size: 58px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.team.bump .score {
+  animation: bump 0.9s ease-out;
+}
+
+@keyframes bump {
+  0% { background: rgba(255, 255, 255, 0.85); color: #111; transform: scale(1.12); }
+  35% { background: rgba(255, 255, 255, 0.35); color: #fff; transform: scale(1.04); }
+  100% { background: rgba(0, 0, 0, 0.3); transform: scale(1); }
+}
+
+/* ---------- 節數 + 時間 ---------- */
+.info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 22px 0 18px;
+  min-width: 210px;
+  background: linear-gradient(180deg, var(--panel-2), var(--panel));
+  color: #fff;
+}
+
+.period {
+  flex: 0 0 auto;
+  min-width: 52px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #111;
+  font-size: 28px;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.info[data-status="final"] .period,
+.info[data-status="halftime"] .period {
+  font-size: 30px;
+  padding: 4px 14px;
+}
+
+.info[data-status="final"],
+.info[data-status="halftime"] {
+  justify-content: center;
+}
+
+.info[data-status="final"] .clock,
+.info[data-status="halftime"] .clock {
+  display: none;
+}
+
+.clock {
+  flex: 1 1 auto;
+  min-width: 118px;
+  font-size: 52px;
+  font-weight: 700;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.clock[data-state="last-minute"] {
+  color: var(--accent);
+}
+
+.clock[data-state="zero"] {
+  color: var(--danger);
+  animation: blink 1s steps(2, start) 3;
+}
+
+.clock[data-running="false"]:not([data-state="zero"]) {
+  opacity: 0.92;
+}
+
+@keyframes blink {
+  to { visibility: hidden; }
+}
+
+/* ---------- 設定錯誤提示（只會喺有問題時出現） ---------- */
+.notice {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80vw;
+  padding: 18px 26px;
+  border-radius: 10px;
+  background: rgba(10, 12, 18, 0.92);
+  color: #fff;
+  font: 600 26px/1.4 system-ui, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sb,
+  .team.bump .score,
+  .clock[data-state="zero"] {
+    transition: none;
+    animation: none;
+  }
+}

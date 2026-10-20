@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scoreboard Overlay</title>
+  <link rel="preload" href="fonts/barlow-condensed-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/overlay.css">
+</head>
+<body data-pos="bottom">
+  <div class="stage">
+    <div id="scoreboard" class="sb is-hidden" aria-live="polite">
+      <div class="team" data-side="away">
+        <div class="logo"><img alt="" hidden><span class="initials"></span></div>
+        <div class="abbr"></div>
+        <div class="score">0</div>
+      </div>
+      <div class="team" data-side="home">
+        <div class="logo"><img alt="" hidden><span class="initials"></span></div>
+        <div class="abbr"></div>
+        <div class="score">0</div>
+      </div>
+      <div class="info">
+        <div class="period"></div>
+        <div class="clock">12:00</div>
+      </div>
+    </div>
+  </div>
+  <div id="notice" class="notice" hidden></div>
+  <script type="module" src="js/overlay.js"></script>
+</body>
+</html>

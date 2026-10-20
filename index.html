@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b0f17">
+  <title>NBA 直播記分板</title>
+  <link rel="stylesheet" href="css/control.css">
+  <style>
+    .home { max-width: 460px; }
+    .home .btn { margin-top: 12px; }
+    .home label { margin-top: 8px; }
+  </style>
+</head>
+<body>
+  <main class="view center">
+    <div class="card home">
+      <h1>NBA 直播記分板</h1>
+      <p class="muted">控制台用手機或者電腦開；Overlay 網址貼入 OBS。</p>
+      <label>比賽 ID（英文、數字、- 或 _，預設 main）
+        <input id="game-id" type="text" value="main" maxlength="32" autocapitalize="off" autocomplete="off" spellcheck="false">
+      </label>
+      <p id="id-error" class="error" hidden>比賽 ID 只可以用英文、數字、- 或 _（最多 32 字）</p>
+      <a id="go-control" class="btn primary block" href="control.html">開控制台</a>
+      <a id="go-overlay" class="btn block" href="overlay.html">開 Overlay</a>
+      <a id="go-demo" class="btn ghost block" href="overlay.html?demo=1">睇 Overlay 示範（唔使設定）</a>
+    </div>
+  </main>
+  <script>
+    (function () {
+      var input = document.getElementById("game-id");
+      var error = document.getElementById("id-error");
+      var links = { control: document.getElementById("go-control"), overlay: document.getElementById("go-overlay") };
+      function update() {
+        var id = input.value.trim() || "main";
+        var ok = /^[A-Za-z0-9_-]{1,32}$/.test(id);
+        error.hidden = ok;
+        var q = "?game=" + encodeURIComponent(ok ? id : "main");
+        links.control.href = "control.html" + q;
+        links.overlay.href = "overlay.html" + q;
+      }
+      input.addEventListener("input", update);
+      update();
+    })();
+  </script>
+</body>
+</html>

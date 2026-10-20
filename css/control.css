@@ -1,0 +1,345 @@
+:root {
+  color-scheme: dark;
+  --bg: #0b0f17;
+  --card: #151b27;
+  --card-2: #1d2534;
+  --line: #2a3446;
+  --text: #eef2f8;
+  --muted: #8d98ab;
+  --accent: #f5b301;
+  --green: #1fbf6b;
+  --red: #ff453a;
+  --blue: #3a8bff;
+  --radius: 14px;
+  --font: system-ui, -apple-system, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+  --num: "SF Mono", "Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+body {
+  min-height: 100vh;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+[hidden] { display: none !important; }
+
+h1 { margin: 0 0 8px; font-size: 24px; }
+h2 { margin: 0 0 12px; font-size: 17px; color: var(--muted); font-weight: 600; }
+h3 { margin: 18px 0 10px; font-size: 15px; color: var(--muted); font-weight: 600; }
+code { background: var(--card-2); padding: 2px 6px; border-radius: 6px; }
+
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.hint { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+.error { color: var(--red); margin: 4px 0 12px; }
+
+.view.center {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.card.narrow { width: 100%; max-width: 380px; }
+
+label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 16px; /* 16px 以上 iPhone 唔會自動放大 */
+}
+
+input:focus { outline: 2px solid var(--blue); outline-offset: 1px; }
+
+/* ---------- 按鈕 ---------- */
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--card-2);
+  color: var(--text);
+  font: 600 16px var(--font);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  touch-action: manipulation;
+  transition: transform 0.06s, background 0.15s, opacity 0.15s;
+}
+
+.btn:active:not(:disabled) { transform: scale(0.96); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn.block { display: flex; width: 100%; margin-top: 10px; }
+.btn.small { min-height: 36px; padding: 0 10px; font-size: 13px; border-radius: 9px; }
+.btn.ghost { background: transparent; }
+.btn.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+.btn.danger { background: rgba(255, 69, 58, 0.12); border-color: var(--red); color: var(--red); }
+.btn.warn { background: rgba(245, 179, 1, 0.15); border-color: var(--accent); color: var(--accent); }
+.btn.active { background: var(--accent); border-color: var(--accent); color: #111; }
+.btn.icon { width: 56px; min-height: 56px; font-size: 20px; }
+.file-btn { margin: 0; color: var(--text); }
+
+/* ---------- 頂部 ---------- */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(11, 15, 23, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar-left, .topbar-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.conn {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.conn[data-state="online"] { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.conn[data-state="offline"] { background: var(--red); animation: pulse 1s infinite alternate; }
+.conn-text { font-size: 14px; font-weight: 600; }
+
+@keyframes pulse { to { opacity: 0.3; } }
+
+.banner {
+  margin: 12px 14px 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(255, 69, 58, 0.14);
+  border: 1px solid var(--red);
+  color: #ffd0cc;
+  font-size: 14px;
+}
+
+/* ---------- 版面 ---------- */
+.layout {
+  display: grid;
+  gap: 14px;
+  padding: 14px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (min-width: 860px) {
+  .layout { grid-template-columns: 1fr 1fr; align-items: start; }
+  .clock-card { grid-row: span 2; }
+  .settings { grid-column: 1 / -1; }
+}
+
+/* ---------- 時鐘 ---------- */
+.period-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.period-display { text-align: center; }
+.period-label { font-size: 26px; font-weight: 800; color: var(--accent); }
+.status-label { min-height: 18px; font-size: 14px; color: var(--red); font-weight: 700; }
+
+.clock-display {
+  margin: 10px 0 14px;
+  text-align: center;
+  font: 700 clamp(64px, 22vw, 112px)/1 var(--num);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+.clock-display[data-state="last-minute"] { color: var(--accent); }
+.clock-display[data-state="zero"] { color: var(--red); }
+
+.btn.toggle {
+  width: 100%;
+  min-height: 84px;
+  border: none;
+  background: var(--green);
+  color: #04130a;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+.btn.toggle.running { background: var(--red); color: #fff; }
+
+.adjust-row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 6px;
+  margin-top: 14px;
+}
+.adjust-row .btn { padding: 0 2px; font-size: 14px; }
+
+.inline-form { display: flex; gap: 8px; margin-top: 12px; }
+.inline-form input { margin-top: 0; }
+.inline-form .btn { flex: 0 0 auto; }
+
+/* ---------- 比分 ---------- */
+.scores {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.team-card {
+  --team: #333;
+  --team-text: #fff;
+  border-top: 6px solid var(--team);
+  padding: 12px;
+}
+
+.team-head { display: flex; align-items: center; gap: 10px; min-height: 48px; }
+.team-logo {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+}
+.team-logo img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.team-logo .initials {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--team);
+  color: var(--team-text);
+  font-size: 13px;
+  font-weight: 800;
+}
+.team-tag { font-size: 12px; color: var(--muted); }
+.team-name { font-size: 17px; font-weight: 700; word-break: break-word; }
+
+.team-score {
+  margin: 8px 0 10px;
+  text-align: center;
+  font: 800 clamp(56px, 16vw, 84px)/1 var(--num);
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  user-select: none;
+}
+
+.score-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+.score-btn { min-height: 56px; font-size: 20px; padding: 0; }
+.score-btn.minus { grid-column: 1 / -1; min-height: 42px; font-size: 16px; background: transparent; }
+
+/* ---------- 狀態 / 設定 ---------- */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.link-row { display: flex; gap: 8px; margin-top: 14px; }
+.link-row input { margin-top: 0; font-size: 13px; }
+
+.settings summary {
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 4px 0;
+}
+
+.team-settings {
+  margin-top: 12px;
+  padding-top: 4px;
+  border-top: 1px solid var(--line);
+}
+
+.color-label { display: flex; align-items: center; gap: 12px; }
+.color-label input[type="color"] {
+  width: 64px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: none;
+}
+
+.logo-edit {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+/* ---------- 提示 ---------- */
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(20px + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 20;
+  max-width: calc(100vw - 32px);
+  padding: 12px 18px;
+  border-radius: 12px;
+  background: #273147;
+  color: var(--text);
+  font-size: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+.toast[data-type="ok"] { background: #12462c; }
+.toast[data-type="error"] { background: #5c1a16; }
+
+@media (max-width: 380px) {
+  .adjust-row { grid-template-columns: repeat(3, 1fr); }
+  .scores { gap: 8px; }
+  .team-card { padding: 10px; }
+}

@@ -1,0 +1,39 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "games": {
+      "$gameId": {
+        ".read": true,
+        ".write": "auth != null && auth.token.email === 'jkung66@gmail.com'",
+        ".validate": "$gameId.matches(/^[A-Za-z0-9_-]{1,32}$/)",
+        "period": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 20" },
+        "regulationPeriods": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 8" },
+        "periodLengthMs": { ".validate": "newData.isNumber() && newData.val() >= 1000 && newData.val() <= 3600000" },
+        "otLengthMs": { ".validate": "newData.isNumber() && newData.val() >= 1000 && newData.val() <= 3600000" },
+        "status": { ".validate": "newData.val() === 'live' || newData.val() === 'halftime' || newData.val() === 'final'" },
+        "visible": { ".validate": "newData.isBoolean()" },
+        "updatedAt": { ".validate": "newData.isNumber()" },
+        "clock": {
+          ".validate": "newData.hasChildren(['running', 'remainingMs'])",
+          "running": { ".validate": "newData.isBoolean()" },
+          "remainingMs": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3600000" },
+          "endsAt": { ".validate": "newData.isNumber()" },
+          "$other": { ".validate": false }
+        },
+        "teams": {
+          "$side": {
+            ".validate": "$side === 'home' || $side === 'away'",
+            "name": { ".validate": "newData.isString() && newData.val().length <= 40" },
+            "short": { ".validate": "newData.isString() && newData.val().length <= 6" },
+            "color": { ".validate": "newData.isString() && newData.val().matches(/^#[0-9a-fA-F]{6}$/)" },
+            "logo": { ".validate": "newData.isString() && newData.val().length <= 300000" },
+            "score": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 999" },
+            "$other": { ".validate": false }
+          }
+        },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}
